@@ -1,0 +1,57 @@
+<!-- views/payment.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head.ejs') %>
+  <title>Payment Form</title>
+  <%- include('./styles/cart.ejs') %>
+</head>
+<body>
+  <div class="container">
+    <% if (locals.UserItems && UserItems.length > 0) { %>  
+      <% UserItems.forEach((item, index) => { %>
+        <div class="items-container">
+              <div class="item">
+                <div class="item-header">
+                  <div>
+                    <div class="item-name"><%= item.name %></div>
+                    <div class="item-description"><%= item.description %></div>
+                  </div>
+                  <div class="quantity-control">
+                    <form action="/minus" method="post">
+                      <input type="hidden" name="quantity" value="<%= item.quantity %>">
+                      <input type="hidden" name="itemId" value="<%= item._id %>">
+                      <button class="quantity-btn minus">-</button>
+                    </form>
+                    <span class="quantity"><%= item.quantity %></span>
+                    <form action="/plus" method="post">
+                      <input type="hidden" name="quantity" value="<%= item.quantity %>">
+                      <input type="hidden" name="itemId" value="<%= item._id %>">
+                      <button class="quantity-btn plus">+</button>
+                    </form>
+                  </div>
+                </div>
+                <div class="price">₹<%= item.price %></div>
+              </div>
+        </div>
+      <% }) %> 
+    <% } %>
+
+    <!-- Add More Items Button -->
+    <form action="/" method="get">
+      <button class="add-more-btn">
+        + Add more items
+      </button>
+    </form>
+
+    <!-- Pay Now Button -->
+     <form action="/orderBill" method="get">
+       <button class="pay-now-btn">Confirm Now</button>
+     </form>
+  </div>
+
+  <!-- Include Scripts -->
+  <%- include('./scripts/cart.ejs') %>
+  <%- include('./partials/script.ejs') %>
+</body>
+</html>

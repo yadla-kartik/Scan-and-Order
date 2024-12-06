@@ -1,0 +1,77 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let total = 0;
+        const orderTotal = document.querySelector('.order-total');
+
+        // Category switching
+        const categories = document.querySelectorAll('.category-item');
+        const menuSections = document.querySelectorAll('.menu-section');
+
+        categories.forEach(category => {
+            category.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all categories and sections
+                categories.forEach(c => c.classList.remove('active'));
+                menuSections.forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked category and corresponding section
+                category.classList.add('active');
+                const targetId = category.getAttribute('href').substring(1);
+                document.getElementById(targetId)?.classList.add('active');
+            });
+        });
+
+        // Add to cart functionality
+        const addButtons = document.querySelectorAll('.add-btn');
+        addButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const price = parseFloat(this.closest('.menu-item').querySelector('.item-price').textContent.replace('₹', '').trim());
+                total += price;
+                orderTotal.textContent = `₹ ${total.toFixed(2)}`;
+            });
+        });
+
+
+        addButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+        // Collect the related menu item details
+        const menuItem = button.closest('.menu-item');
+        const name = menuItem.querySelector('.item-name').innerText;
+        const description = menuItem.querySelector('.item-description').innerText;
+        const price = menuItem.querySelector('.item-price').innerText;
+
+        // Data to send
+        const data = {
+            name,
+            description,
+            price,
+            };
+
+        // Send the data to the backend
+        fetch('/item', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response =>
+            {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data =>{
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.log('Error:', error);
+                alert('Failed to add item.');
+            });
+    });
+    });     
+    });
+
+</script>

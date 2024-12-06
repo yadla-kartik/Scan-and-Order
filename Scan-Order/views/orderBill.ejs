@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head.ejs') %>
+  <title>Scan & Order</title>
+  <%- include('./styles/orderBill.ejs') %>
+</head>
+<body>
+  <div class="title mt-4">Order Bill</div>
+  <% if (locals.user) { %>
+    <div class="container">
+
+      <div class="customer-details">
+        <div class="ud">
+          <div>Name: <%= user.userName %></div>
+          <div>Date: <span id="current-date"></span></div>
+          <div>Time: <span id="current-time"></span></div>
+        </div>
+      </div>
+
+      <hr>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Item name</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% UserItems.forEach(item => { %>
+            <tr>
+              <td><%= item.name %></td>
+              <td><%= item.quantity %></td>
+              <td>₹<%= item.price %></td>
+              <td><%= item.amt %></td>
+            </tr>
+          <% }); %>
+          <tr class="total-row">
+            <td colspan="3">Total</td>
+            <td>₹ <%= UserItems.reduce((total, item) => total + item.amt, 0) %></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="thank-you">Thank you !!!</div>
+    </div>
+  <% } %>
+  <%- include('./scripts/orderBill.ejs') %>
+  <%- include('./partials/script.ejs') %>
+</body>
+</html>

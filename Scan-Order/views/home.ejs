@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+    <title>Food Menu</title>
+    <!-- CSS -->
+    <%- include('./styles/home.ejs') %>
+</head>
+<body>
+    <div class="container">
+
+        <%- include('./partials/nav.ejs') %>
+
+        <%- include('./partials/menu.ejs') %>
+     
+    </div>
+
+    <!-- Order Bar -->
+     <form action="/cart" method="get">
+         <button class="order-bar">
+             <div style="font-size: 18px; color: black;">Order</div>
+             <div class="order-total">₹ 0.00</div>
+         </button>
+     </form>
+
+   
+    <%- include('./scripts/home.ejs') %>
+        
+    <%- include('./partials/script.ejs') %>
+
+</body>
+</html>
