@@ -148,6 +148,6 @@ connectDB("mongodb://localhost:27017/scan_order")
     console.log("Error", err);
   });
 
-const Port = process.env.Port || 8000
+const Port = process.env.PORT || 8000
 
 app.listen(Port, () => console.log("Server Started"));
